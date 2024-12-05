@@ -112,65 +112,66 @@ var blocks = [{
    "rZ": 0
  }];
 
+var delay = 1, maxDelay = 10;
 
- var delay = 1, maxDelay = 10;
+$('.shape').each(function(index) {
+  if (delay != maxDelay) {
+    delay += maxDelay / 4;
+  } else {
+    delay = 1;
+  }
+  
+  asym = delay / maxDelay;
+  var startX = blocks[index].X;
+  var startY = blocks[index].Y;
+  var startZ = blocks[index].Z;
+  var startRX = blocks[index].rX;
+  var startRY = blocks[index].rY;
+  var startRZ = blocks[index].rZ;
+  var endX, endY, endZ;
 
- $('.shape').each(function(index) {
-   if (delay != maxDelay) {
-     delay += maxDelay / 4;
-   } else {
-     delay = 1;
-   }
-   asym = delay / maxDelay;
-   var startX = blocks[index].X;
-   var startY = blocks[index].Y;
-   var startZ = blocks[index].Z;
-   var startRX = blocks[index].rX;
-   var startRY = blocks[index].rY;
-   var startRZ = blocks[index].rZ;
-   var endX, endY, endZ, asym;
-   if (index < 4 || (index >= 8 && index <= 11)) {
-     startX = startX - asym;
-     endX = startX + 2 * asym;
-     endY = startY + 0;
-     endZ = startZ + 0;
-   } else {
-     startZ = startZ - asym;
-     endX = startX + 0;
-     endY = startY + 0;
-     endZ = startZ + 2 * asym;
-   }
-   $(this).velocity({
-     translateX: startX + 'em',
-     translateY: startY + 'em',
-     translateZ: startZ + 'em',
-     rotateX: startRX + 'deg',
-     rotateY: startRY + 'deg',
-     rotateZ: startRZ + 'deg'
-   }, {
-     duration: 0,
-     loop: false,
-     easing: 'ease-in-out'
-   }).velocity({
-     translateX: endX + 'em',
-     translateY: endY + 'em',
-     translateZ: endZ + 'em'
-   }, {
-     delay: 0,
-     duration: 600,
-     loop: true,
-     easing: 'ease-in-out'
-   });
- });
+  if (index < 4 || (index >= 8 && index <= 11)) {
+    startX = startX - asym;
+    endX = startX + 2 * asym;
+    endY = startY;
+    endZ = startZ;
+  } else {
+    startZ = startZ - asym;
+    endX = startX;
+    endY = startY;
+    endZ = startZ + 2 * asym;
+  }
 
+  $(this).velocity({
+    translateX: startX + 'em',
+    translateY: startY + 'em',
+    translateZ: startZ + 'em',
+    rotateX: startRX + 'deg',
+    rotateY: startRY + 'deg',
+    rotateZ: startRZ + 'deg'
+  }, {
+    duration: 0,
+    loop: false,
+    easing: 'ease-in-out'
+  }).velocity({
+    translateX: endX + 'em',
+    translateY: endY + 'em',
+    translateZ: endZ + 'em'
+  }, {
+    delay: 0,
+    duration: 600,
+    loop: true,
+    easing: 'ease-in-out'
+  });
+});
 
-/* mouse movement */
-
- var steps = 40;
- $(document).mousemove(function(event) {
-   var percentWidth = event.pageX / $(document).width();
-   var percentHeight = event.pageY / $(document).height();
-   var moveX = ((percentHeight - 0.5) * steps) - 26;
-   var moveY = ((percentWidth - 0.5) * steps) + 36;
-   $('.scene').css("transform", "rotateX(" + moveX + "deg) rotateY(" + moveY + "deg)");
- });
+/* Mouse movement interaction */
+var steps = 40;
+$(document).mousemove(function(event) {
+  var percentWidth = event.pageX / $(document).width();
+  var percentHeight = event.pageY / $(document).height();
+  var moveX = ((percentHeight - 0.5) * steps) - 26;
+  var moveY = ((percentWidth - 0.5) * steps) + 36;
+  
+  $('.scene').css("transform", "rotateX(" + moveX + "deg) rotateY(" + moveY + "deg)");
+});
